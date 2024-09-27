@@ -1,0 +1,49 @@
+Notes and other code logic to test etc. 
+        // Define custom styles for htmlElements
+                const customStyles = {
+                titleStyle: {
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                    color: '#4CAF50'
+                },
+                contentStyle: {
+                    fontSize: '16px',
+                    color: '#333'
+                },
+                ctaStyle: {
+                    padding: '10px 20px',
+                    backgroundColor: '#4CAF50',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    borderRadius: '5px'
+                }
+                };
+        // Function to create HTML elements for each message
+        const createHtmlElements = (message) => {
+          // Create a div for each banner
+          const bannerElement = document.createElement('div');
+          bannerElement.style.marginBottom = '20px';
+
+          // Create title element
+          const titleElement = document.createElement('h2');
+          titleElement.innerText = message.title;
+          Object.assign(titleElement.style, customStyles.titleStyle);
+
+          // Create content element
+          const contentElement = document.createElement('p');
+          contentElement.innerText = message.body;
+          Object.assign(contentElement.style, customStyles.contentStyle);
+
+          // Create CTA (call-to-action) button element
+          const imageElement = document.createElement('a');
+          imageElement.innerText = message.mediaUrl;
+          imageElement.href = message.mediaUrl;
+          Object.assign(imageElement.style, customStyles.ctaStyle);
+
+          // Append title, content, and CTA to the banner element
+          bannerElement.appendChild(titleElement);
+          bannerElement.appendChild(contentElement);
+          bannerElement.appendChild(imageElement);
+
+          return { bannerElement, titleElement, contentElement, imageElement} ;
+        };
