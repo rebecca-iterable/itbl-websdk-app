@@ -18,10 +18,12 @@ import {
   IterableEmbeddedNotification 
 } from '@iterable/web-sdk';
 
-const jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFuLm1laHRhK3Rlc3RAaXRlcmFibGUuY29tIiwiaWF0IjoxNzI0MzQyOTA1LCJleHAiOjE3NTQ1ODI5MDV9.BoAfB5t2syvl9YZSm7_-HGzgNDgzdEv9GfG0oE2Nzmo"; //exp = 08/29/2025
-const apikey = "7df6f68cde704c16add48742964415dc";
+const jwtToken = '';
+const apikey = '';
 const appPackageName = "itblembedded";
-const email = window.location.search.split("email=")[1] || ''; // current email always set to manan.mehta+test@iterable.com
+
+// current email always set to manan.mehta+test@iterable.com
+const email = window.location.search.split("email=")[1] || ''; 
 
 const embeddedManager = new IterableEmbeddedManager(appPackageName);
 const embeddedSessionManager = new IterableEmbeddedSessionManager(appPackageName);
@@ -32,24 +34,6 @@ const placementId = [152];
 
 const { setEmail } = initialize(apikey, () => new Promise((resolve)=>{ resolve(jwtToken)}));
 
-// syncMessages to fetch (from Iterable) embedded messages for the current user.
-// setEmail(email)
-//   .then(response => {
-//     embeddedManager.syncMessages(
-//       appPackageName,
-//       () => {
-//         // console.log('Fetched Embedded messages', JSON.stringify(embeddedManager.getMessages()));
-//         // console.log('Fetched Embedded messages', embeddedManager.getMessages());
-//         // Handle messages using embeddedMessageUpdateHandler
-//         embeddedManager.addUpdateListener(handleFetchEmbeddedMessages);
-        
-//       },
-//       placementId
-//     );
-//   })
-//   .catch(error => {
-//     console.log('Failed to set email:', error);
-//   });
 
 const htmlElements = {
   parent: {
@@ -274,71 +258,3 @@ const resetInterval = () => {
 }; */
 
       
-// This sample code assumes that embeddedManager has already been instantiated
-      // (for an example, see step 4, above), and that embeddedMessageImage, 
-      // embeddedMessageTitle, embeddedMessageBody, embeddedMessageButton1, 
-      // embeddedMessageButton2, and embeddedMessage are already set up to reference 
-      // elements of an embedded message UI.
-/** template code from support doc 
-      const embeddedMessageUpdateHandler = {
-        onMessagesUpdated: () => {
-      
-          // a single placement, that has ID 327. 
-          const placementId = 327;
-      
-          // Grab the messages that the SDK has already fetched and now has in memory.
-          const messages = embeddedManager.getMessagesForPlacement(placementId)
-      
-          // If there are any messages to display...
-          if (messages.length > 0) {
-      
-            // Display the first message.
-            const message = messages[0];
-      
-            // Here, you could display the embedded messaging using an out-of-the-box
-            // view, or using a custom message display. This examples uses a custom
-            // message view. For information about out-of-the-box views, see 
-            // Out of the Box Views, at the bottom of this article.
-      
-            // Set up the message
-            embeddedMessageImage.src = message.elements?.mediaUrl;
-            embeddedMessageTitle.innerText = message.elements?.title;
-            embeddedMessageBody.innerText = message.elements?.body;
-      
-            // Set up the first button
-            if (message.elements?.buttons?.length > 0) {
-              let button = message.elements?.buttons[0];
-              embeddedMessageButton1.innerText = button.title;
-              // For "Open URL" buttons, the URL is in the data field. Otherwise,
-              // the URL is in the type field.
-              embeddedMessageButton1.href = button.action?.type === 
-                 "openUrl" ? button.action?.data : button.action?.type;
-              embeddedMessageButton1.style.display = "inline";
-            }
-      
-            // Set up the second button
-            if (message.elements?.buttons?.length > 1) {
-              let button = message.elements?.buttons[1];
-              embeddedMessageButton2.innerText = button.title;
-              embeddedMessageButton2.href = button.action?.type === 
-                 "openUrl" ? button.action?.data : button.action?.type;
-              embeddedMessageButton2.style.display = "inline";
-            }
-      
-            // Display the message (this example assumes that the embedded message
-            // UI was hidden, and should now be displayed).
-            embeddedMessage.style.display = "block";
-      
-            // Start a session & impression. 
-            embeddedSessionManager.startSession();
-            embeddedSessionManager.startImpression(message.metadata.messageId, placementId);
-          }
-      
-        },
-        onEmbeddedMessagingDisabled: () => {
-          // There was an error, so hide the embedded message display
-          embeddedMessage.style.display = "none";
-        }
-      };
-      */
-
