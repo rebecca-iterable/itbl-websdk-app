@@ -18,8 +18,8 @@ import {
   IterableEmbeddedNotification 
 } from '@iterable/web-sdk';
 
-const jwtToken = ""; //exp = 08/29/2025
-const apikey = "";
+const jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFuLm1laHRhK3Rlc3RAaXRlcmFibGUuY29tIiwiaWF0IjoxNzI0MzQyOTA1LCJleHAiOjE3NTQ1ODI5MDV9.BoAfB5t2syvl9YZSm7_-HGzgNDgzdEv9GfG0oE2Nzmo"; //exp = 08/29/2025
+const apikey = "7df6f68cde704c16add48742964415dc";
 const appPackageName = "itblembedded";
 const email = window.location.search.split("email=")[1] || ''; // current email always set to manan.mehta+test@iterable.com
 
@@ -50,35 +50,29 @@ const { setEmail } = initialize(apikey, () => new Promise((resolve)=>{ resolve(j
 //   .catch(error => {
 //     console.log('Failed to set email:', error);
 //   });
+
 const htmlElements = {
-  // Styles to apply to the HTML element that contains the out-of-the-box view.
-  // Not the element whose innerText you set to the out-of-the-box view, but
-  // its first child.
   parent: {
-    // id to assign
     id: 'parent-id',
-    // Styles must be strings
     styles: `
-      background: white;
-      border-color: purple;
-      border-radius: 30px;
-      padding: 10px;
-      width: fit-content;
-    `
+    background: white;
+    border-color: purple;
+    border-radius: 30px;
+    padding: 10px;
+    width: fit-content;
+    overflow: hidden; /* Hide overflow */
+  `
   },
-  // Image styles
   img: {
     id: 'img-id',
     styles: ''
   },
-  // Title text styles
   title: {
     id: 'title-id',
     styles: `
       color: green;
     `
   },
-  // Primary button styles
   primaryButton: {
     id: 'primary-button-id',
     styles: `
@@ -86,27 +80,22 @@ const htmlElements = {
       background: #FFFFFF;
     `
   },
-  // Secondary button styles
   secondaryButton: {
     id: 'secondary-button-id',
     styles: '',
-    // If you give disabledStyles to a button, the button will be disabled. To
-    // enable the button, re-render the HTML component without the disabledStyles.
     disabledStyles: `
-        opacity: .6;
-        cursor: not-allowed;
-        background: grey;
-        color: grey;
-      `
+      opacity: .6;
+      cursor: not-allowed;
+      background: grey;
+      color: grey;
+    `
   },
-  // Body text styles
   body: {
     id: 'body-id',
     styles: `
       color: green;
     `
   },
-  // Div containing the buttons
   buttonsDiv: {
     id: 'buttons-div-id',
     styles: ''
@@ -122,43 +111,29 @@ setEmail(email)
     console.log('Failed to set email:', error)
   })
 
-// create carousel
-const createHtmlElements = (cardTitle:any, cardBody:any, cardMedia:any) =>{
-  const slide = document.createElement('div');
-  slide.classList.add('carousel-slide');
-  
-  const title = document.createElement('h2');
-  title.innerHTML = cardTitle;
-  
-  const content = document.createElement('p');
-  content.innerHTML = cardBody;
-  
-  const mediaImg = document.createElement('a');
-  mediaImg.innerHTML = cardMedia;
-  
-  slide.appendChild(title);
-  slide.appendChild(content);
-  slide.appendChild(mediaImg);
-  
-  console.log("slide.....")
-  console.log(`typeof slide ${typeof slide}`);
-  console.log(slide)
-
-  return slide;
-}
 
 // Carousel logic
 let currentIndex = 0;
+let intervalId: NodeJS.Timeout | null = null;
 
 const renderMessages = (messages:any) => {
-  const bannerContainer = document.getElementById('bannerContainer');
-
+  console.log(`In renderMessages function...`)
+  const bannerContainer = document.getElementById('embedded-banner-container');
+  
   if (bannerContainer) {
     bannerContainer.innerHTML = ''; // Clear existing banners
 
-    messages.forEach((message, index) => {
-      const banner = IterableEmbeddedBanner({
-        packageName: `my-website-message-${index}`,
+    messages.forEach((message:any) => {
+      const card_title = message.elements?.title!;
+      const card_body = message.elements?.body!;
+      const card_mediaImage = message.elements?.mediaUrl!;
+
+      console.log(`message title: ${message.elements?.title}`)
+      console.log(`message body: ${message.elements?.body}`)
+      console.log(`message image: ${message.elements?.mediaUrl}`)
+      let banner: Object;
+      banner = IterableEmbeddedBanner({
+        appPackageName,
         message,
         htmlElements,
         errorCallback: (error) => console.log('Error: ', error)
@@ -184,6 +159,7 @@ const renderMessages = (messages:any) => {
       currentIndex = (currentIndex + 1) % messages.length;
       showSlide(currentIndex);
     }, 5000); // Change slide every 5 seconds
+
   }
 };
 
@@ -194,7 +170,24 @@ const showSlide = (index: number) => {
     slides[i].style.display = 'none'; // Hide all slides
   }
 
+  // Show current slide and next slide for glimpse effect
   slides[index].style.display = 'block'; // Show the current slide
+  if (slides[index + 1]) {
+    slides[index + 1].style.display = 'block'; // Show the next slide for glimpse
+    //slides[index + 1].style.opacity = '0.5'; // Slightly transparent
+  }
+  
+};
+
+
+const nextSlide = (msgLength:any) => {
+  currentIndex = (currentIndex + 1) % msgLength; // Move to the next index
+  showSlide(currentIndex);
+};
+
+const prevSlide = (msgLength:any) => {
+  currentIndex = (currentIndex - 1 + msgLength) % msgLength; // Move to the previous index
+  showSlide(currentIndex);
 };
 
 // handle embedded message here
@@ -205,13 +198,14 @@ const handleFetchEmbeddedMessages =  () => {
         // embeddedManager.getMessages()
         console.log('Fetched Embedded messages', JSON.stringify(embeddedManager.getMessages()));
         console.log('Fetched Embedded messages', embeddedManager.getMessages());
-        let msgCount = embeddedManager.getMessages().length;
+      
         // Define the container where all the banners will be injected
-        const bannerContainer = document.getElementById('embedded-banner-container');
+        //const bannerContainer = document.getElementById('embedded-banner-container');
         
+        renderMessages(embeddedManager.getMessages());
         // Reference to carousel container
         //const carouselInner = document.getElementById('embedded-banner-container') as HTMLElement;
-        embeddedManager.getMessages().forEach((message) => {
+        /*embeddedManager.getMessages().forEach((message) => {
           const card_title = message.elements?.title!;
           const card_body = message.elements?.body!;
           const card_mediaImage = message.elements?.mediaUrl!;
@@ -220,35 +214,7 @@ const handleFetchEmbeddedMessages =  () => {
           console.log(`message body: ${message.elements?.body}`)
           console.log(`message image: ${message.elements?.mediaUrl}`)
 
-          // Create a banner for each message
-          const card = IterableEmbeddedBanner({
-            appPackageName,
-            message,
-            htmlElements,
-            errorCallback
-          }); 
-
-          if(bannerContainer){
-            bannerContainer.innerHTML = ''; // Clear existing banners
-            // Wrap each message in a div with class "carousel-slide"
-            const slide = document.createElement('div');
-            slide.classList.add('carousel-slide');
-            slide.innerHTML = card;
-            // bannerContainer.innerHTML += card;
-            // Add each slide to the container
-            bannerContainer.appendChild(slide);
-            showSlide(currentIndex); // Initially show the first message
-
-            // Start the carousel
-            setInterval(() => {
-              currentIndex = (currentIndex + 1) % msgCount;
-              showSlide(currentIndex);
-            }, 5000); // Change slide every 5 seconds
-          }else {
-            console.error("Banner container not found in the DOM.");
-          }
-
-        });
+        });*/
       },
       onEmbeddedMessagingDisabled: () => {
         console.log("no message to display")
@@ -265,52 +231,48 @@ const handleFetchEmbeddedMessages =  () => {
   }
 };
 
-const showSlide = (index: number) => {
-  const slides = document.getElementsByClassName('carousel-slide') as HTMLCollectionOf<HTMLElement>;
-
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.display = 'none'; // Hide all slides
-  }
-
-  slides[index].style.display = 'block'; // Show the current slide
-};
-
 
 // Handle errors
 const errorCallback = (error: Error) => {
   console.error('Error displaying banner or tracking click event:', error);
 };
   
-// script.ts
-document.addEventListener('DOMContentLoaded', () => {
-console.log('Fitness website loaded.');
+// Manual Slideing
+/*// Event listeners for next and previous buttons
+const createNavigationButtons = () => {
+  const bannerContainer = document.getElementById('bannerContainer');
 
-// Carousel functionality
-const carouselWrapper = document.querySelector('.carousel-wrapper') as HTMLElement;
-const carouselItems = document.querySelectorAll('.carousel-item');
-const prevButton = document.querySelector('.carousel-button.prev') as HTMLButtonElement;
-const nextButton = document.querySelector('.carousel-button.next') as HTMLButtonElement;
+  if (bannerContainer) {
+    // Create Next Button
+    const nextButton = document.createElement('button');
+    nextButton.innerText = 'Next';
+    nextButton.onclick = () => {
+      nextSlide();
+      resetInterval();
+    };
+    bannerContainer.appendChild(nextButton);
 
-let currentIndex = 0;
-
-const updateCarousel = () => {
-const offset = -currentIndex * 100;
-carouselWrapper.style.transform = `translateX(${offset}%)`;
+    // Create Previous Button
+    const prevButton = document.createElement('button');
+    prevButton.innerText = 'Previous';
+    prevButton.onclick = () => {
+      prevSlide();
+      resetInterval();
+    };
+    bannerContainer.appendChild(prevButton);
+  }
 };
 
-// prevButton.addEventListener('click', () => {
-//     currentIndex = (currentIndex > 0) ? currentIndex - 1 : carouselItems.length - 1;
-//     updateCarousel();
-// });
+// Reset interval after manual navigation
+const resetInterval = () => {
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = setInterval(() => {
+      nextSlide();
+    }, 7000);
+  }
+}; */
 
-// nextButton.addEventListener('click', () => {
-  //     currentIndex = (currentIndex < carouselItems.length - 1) ? currentIndex + 1 : 0;
-  //     updateCarousel();
-  // });
-  
-  // Initialize carousel
-  updateCarousel();
-});
       
 // This sample code assumes that embeddedManager has already been instantiated
       // (for an example, see step 4, above), and that embeddedMessageImage, 

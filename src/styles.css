@@ -48,7 +48,6 @@ footer {
     bottom: 0;
 }
 /* Carousel Styles */
-/* Carousel Styles */
 #carousel {
     padding: 2em;
     background: #f4f4f4;
@@ -173,25 +172,26 @@ footer {
     right: 0;
   } */
 
-  /* Carousel container */
-#bannerContainer {
+/* Carousel container */
+#embedded-banner-container {
     position: relative;
     width: 100%;
     max-width: 600px; /* Adjust as needed */
     overflow: hidden;
     margin: auto;
+    display: flex; /* Keep the display flex for the parent */
+    transition: transform 2s ease-in-out; /* Smooth transition */
   }
   
   /* Each slide */
   .carousel-slide {
-    display: none; /* Hide all slides initially */
-    width: 100%;
+    min-width: 100%; /* Each slide takes full width */
     box-sizing: border-box;
     padding: 20px;
-  }
-  
+    transition: transform 2s ease-in-out, opacity 2s ease-in-out; /* Smooth transition */
+  } 
   /* Visible slide */
   .carousel-slide.active {
     display: block;
   }
-  
+ 
