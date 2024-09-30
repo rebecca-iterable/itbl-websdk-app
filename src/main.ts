@@ -19,9 +19,12 @@ import {
 } from '@iterable/web-sdk';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 const jwtToken = '';
 const apikey = '';
 =======
+=======
+>>>>>>> 06e3dc9 (update)
 const jwtToken = ""; //exp = 08/29/2025
 const apikey = "";
 
