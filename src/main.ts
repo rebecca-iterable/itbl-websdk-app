@@ -40,8 +40,9 @@ const htmlElements = {
   parent: {
     id: 'parent-id',
     styles: `
-    background: white;
+    background: #f4f4f4;
     border-color: purple;
+    border-width: 2px;
     border-radius: 30px;
     padding: 10px;
     width: fit-content;
@@ -50,19 +51,22 @@ const htmlElements = {
   },
   img: {
     id: 'img-id',
-    styles: ''
+    styles: `
+    width: 25%;
+    height: 25%;
+    `
   },
   title: {
     id: 'title-id',
     styles: `
-      color: green;
+      color: #000000;
     `
   },
   primaryButton: {
     id: 'primary-button-id',
     styles: `
-      color: #8B0000;
-      background: #FFFFFF;
+      color: #ffffff;
+      background: #000000;
     `
   },
   secondaryButton: {
@@ -78,7 +82,7 @@ const htmlElements = {
   body: {
     id: 'body-id',
     styles: `
-      color: green;
+      color: #000000;
     `
   },
   buttonsDiv: {
