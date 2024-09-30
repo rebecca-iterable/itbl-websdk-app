@@ -35,7 +35,7 @@ const placementId = [152];
 
 const { setEmail } = initialize(apikey, () => new Promise((resolve)=>{ resolve(jwtToken)}));
 
-
+// Control OOTB Card Styles from htmlElements
 const htmlElements = {
   parent: {
     id: 'parent-id',
