@@ -18,8 +18,14 @@ import {
   IterableEmbeddedNotification 
 } from '@iterable/web-sdk';
 
+<<<<<<< HEAD
 const jwtToken = '';
 const apikey = '';
+=======
+const jwtToken = ""; //exp = 08/29/2025
+const apikey = "";
+
+>>>>>>> 06e3dc9 (update)
 const appPackageName = "itblembedded";
 
 // current email always set to manan.mehta+test@iterable.com
