@@ -26,11 +26,11 @@ const apikey = "fcbf364742dd43f9be89f639dfaf5713";
 const appPackageName = "com.rebecca.webinapptest";
 
 // current email always set to manan.mehta+test@iterable.com
-const email = window.location.search.split("email=rebecca+collectivevoice@iterable.com")[1] || ''; 
+const email = window.location.search.split("email=")[1] || ''; 
 
 const embeddedManager = new IterableEmbeddedManager(appPackageName);
 const embeddedSessionManager = new IterableEmbeddedSessionManager(appPackageName);
-console.log("email=rebecca+collectivevoice@iterable.com", email);
+console.log("email=", email);
 
 // Example placement ID, as assigned by Iterable.
 const placementId = [1455];
