@@ -23,7 +23,7 @@ const jwtToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzYxOTE1MjUsI
 //exp = 04/14/2025
 const apikey = "fcbf364742dd43f9be89f639dfaf5713";
 
-const appPackageName = "itblembedded";
+const appPackageName = "com.rebecca.webinapptest";
 
 // current email always set to manan.mehta+test@iterable.com
 const email = window.location.search.split("email=rebecca+collectivevoice@iterable.com")[1] || ''; 
