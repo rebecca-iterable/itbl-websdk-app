@@ -18,20 +18,22 @@ import {
   IterableEmbeddedNotification 
 } from '@iterable/web-sdk';
 
-const jwtToken = ""; //exp = 08/29/2025
-const apikey = "";
+const jwtToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzYxOTE1MjUsImlhdCI6MTc0NDY1NTUyNSwiZW1haWwiOiJyZWJlY2NhK2NvbGxlY3RpdmV2b2ljZUBpdGVyYWJsZS5jb20ifQ.ghR6PF6R_BPO6rUhDM20EgTZDIFDL3q1Bg8xoVdrHV4"; 
+
+//exp = 04/14/2025
+const apikey = "fcbf364742dd43f9be89f639dfaf5713";
 
 const appPackageName = "itblembedded";
 
 // current email always set to manan.mehta+test@iterable.com
-const email = window.location.search.split("email=")[1] || ''; 
+const email = window.location.search.split("email=rebecca+collectivevoice@iterable.com")[1] || ''; 
 
 const embeddedManager = new IterableEmbeddedManager(appPackageName);
 const embeddedSessionManager = new IterableEmbeddedSessionManager(appPackageName);
-console.log("email=", email);
+console.log("email=rebecca+collectivevoice@iterable.com", email);
 
 // Example placement ID, as assigned by Iterable.
-const placementId = [152];
+const placementId = [1455];
 
 const { setEmail } = initialize(apikey, () => new Promise((resolve)=>{ resolve(jwtToken)}));
 
@@ -261,5 +263,3 @@ const resetInterval = () => {
     }, 7000);
   }
 }; */
-
-      
