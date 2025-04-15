@@ -33,7 +33,7 @@ const embeddedSessionManager = new IterableEmbeddedSessionManager(appPackageName
 console.log("email=", email);
 
 // Example placement ID, as assigned by Iterable.
-const placementId = [1455];
+const placementId = 1455;
 
 const { setEmail } = initialize(apikey, () => new Promise((resolve)=>{ resolve(jwtToken)}));
 
