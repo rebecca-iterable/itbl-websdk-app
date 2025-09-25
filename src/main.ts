@@ -18,10 +18,10 @@ import {
   IterableEmbeddedNotification 
 } from '@iterable/web-sdk';
 
-const jwtToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NzYxOTE1MjUsImlhdCI6MTc0NDY1NTUyNSwiZW1haWwiOiJyZWJlY2NhK2NvbGxlY3RpdmV2b2ljZUBpdGVyYWJsZS5jb20ifQ.ghR6PF6R_BPO6rUhDM20EgTZDIFDL3q1Bg8xoVdrHV4"; 
+const jwtToken = ""; 
 
 //exp = 04/14/2025
-const apikey = "fcbf364742dd43f9be89f639dfaf5713";
+const apikey = "";
 
 const appPackageName = "com.rebecca.webinapptest";
 
